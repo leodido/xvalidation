@@ -7,5 +7,5 @@ Note that `xvalidation` is not yet available on CRAN, but you can install it wit
 
 ```R
 library(devtools)
-install_github('xvalidation', user = 'leodido')
+install_github('xvalidation', username = 'leodido')
 ```
