@@ -18,6 +18,7 @@
 #' }
 #' @docType package
 #' @name xvalidation
+#' @import assertthat
 NULL
 
 .onLoad <- function(libname, pkgname) {
