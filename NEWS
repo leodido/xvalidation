@@ -1,0 +1,8 @@
+xvalidation 0.1
+===============
+
+* function to partition a sequence into n partitions, where n is equal to the cardinality of the sequence [leave-one-out validation]
+
+* function to partition a sequence into two pieces [holdout validation]
+
+* function to partition a sequence into k folds [k-fold cross-validation]
