@@ -1,10 +1,10 @@
 Package: xvalidation
-Title: 
+Title: Set of easy functions to perform cross-validation.
 Version: 0.1
-Authors@R: 
-Description: 
+Authors@R: 'Leonardo Di Donato <leodidonato@gmail.com> [aut,cre]'
+Description: xvalidation provides a set of simple but effective functions
+    to perform cross-validation of your model on your dataset.
 Depends:
     R (>= 3.0.0)
-License: 
+License: GPL-3
 Suggests: 
-
