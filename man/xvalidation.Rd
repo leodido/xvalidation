@@ -9,7 +9,8 @@
 \usage{
   xvalidation(dataset,
     method = getOption("xvalidation.methods"), k = NULL,
-    names = getOption("xvalidation.foldnames"))
+    names = getOption("xvalidation.foldnames"),
+    parallel = FALSE, pos = 1L)
 
   kfold(n_obs, k = getOption("xvalidation.k"),
     names = getOption("xvalidation.foldnames"))

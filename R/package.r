@@ -33,3 +33,20 @@ NULL
   if (any(to_set)) options(xvalidation_ops[to_set])
   invisible()
 }
+
+# TODO: in '<-' function check that x parameter is the xvalidation function
+# HOWTO: i suppose matching the standardized signature of x with the standardized signature of xvalidation
+
+# TODO: results parameter have to be a named list with this structure for my multi_class_summary
+# predictions: vector of n elements of type c
+# actuals: vector of n element of type c
+# probability: numeric vector of n element with values between 0 and 1
+# n -> number of elements of the validation/test set
+
+# TODO: add (and export) default function/s to evaluate inferencer/classifier performance on single fold stats
+# TODO: add (and export) default function/s to aggregate (e.g. micro avg, macro avg, both) single fold stats into one
+
+# TODO: nella prossima versione aggiungere funzioni per
+# - logging dei fold creati (indici, nomi degli elementi del dataset corrispondenti, entrambi)
+# - serializzazione/salvataggio della configurazione di folding
+# - lettura da file preformattati di configurazioni di folding (con controlli: deve essere una cross-validation corretta, chiaramente)

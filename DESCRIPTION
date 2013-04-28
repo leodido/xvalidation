@@ -13,4 +13,5 @@ Suggests:
     devtools
 Collate:
     'package.r'
-    'xvalidation.r'
+    'cross-validation.r'
+    'handlers.r'
