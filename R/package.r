@@ -50,3 +50,17 @@ NULL
 # - logging dei fold creati (indici, nomi degli elementi del dataset corrispondenti, entrambi)
 # - serializzazione/salvataggio della configurazione di folding
 # - lettura da file preformattati di configurazioni di folding (con controlli: deve essere una cross-validation corretta, chiaramente)
+
+
+# trainer       N     Y     Y     Y     Y          
+# validator     N     N     Y     Y     Y     
+# evaluator     N     N     N     Y     Y     
+# aggregator    N     N     N     N     Y     
+#               1     2     3     4     5
+# output:
+# 1 -> folding configuration
+# 2 -> folding configuration + learned models
+# 3 -> folding configuration + learned models + prediction results
+# 4 ->          ''           +       ''       +         ''         + stats
+# 5 ->          ''           +       ''       +         ''         + stats + aggregated stats
+# aggregator -> evaluator -> validator -> trainer

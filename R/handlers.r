@@ -31,7 +31,7 @@ evaluator <- function(x) attr(x, 'evaluator')
 'evaluator<-' <- function(x, value) {
   assert_that(
     is.function(x),
-    has_args(value, c('results'), exact = TRUE)
+    has_args(value, c('results', 'training_set'), exact = TRUE)
   )
   attr(x, 'evaluator') <- value
   x
@@ -44,7 +44,7 @@ aggregator <- function(x) attr(x, 'aggregator')
 'aggregator<-' <- function(x, value) {
   assert_that(
     is.function(x),
-    has_args(value, c('fold_stats'), exact = TRUE)
+    has_args(value, c('stats'), exact = TRUE)
   )
   attr(x, 'aggregator') <- value
   x
