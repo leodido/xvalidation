@@ -3,22 +3,22 @@ xvalidation
 
 Provides a set of **simple** and **useful** `R` functions to perform the **cross-validation** of your model on your dataset.
 
-You can uses it to simply folding your dataset through `xvalidation()`. The folding options are:
+You can uses it to simply folding your dataset through `xvalidation(dataset, method, k, ...)`. The folding available methods are:
 
-* `kfold` with `k` default to `10` to perform a k-fold cross-validation
-* `holdout` to performa a holdout cross-validation
-* `loo` to perform a leave-one-out cross-validation
+* `kfold` (note that `k` is `10` by default), to perform a k-fold cross-validation
+* `holdout`, to performa a holdout cross-validation
+* `loo`, to perform a leave-one-out cross-validation
 
 Or you can completely perform a cross-validated simulation. In this regard it provides useful hooks to set your functions:
 
-1. `trainer<-` to write your learning algorithm
-2. `validator<-` to write your prediction algorithm
-3. `evaluator<-` to compute the performance statistics
-4. `aggregator<-` to average or generally aggregate the performance statistics of each fold
+1. `trainer` to write your learning algorithm
+2. `validator` to write your prediction algorithm
+3. `evaluator` to compute the performance statistics
+4. `aggregator` to average or generally aggregate the performance statistics of each fold
 
-Each of these functions has a well-defined signature that must be respected.
+Each of these handlers require a function with a well-defined signature that must be respected.
 
-`xvalidator` will take care of calling these hooks in the right way for each fold (with the exception of `aggregator<-` that is called at the end of the simulation).
+`xvalidator` will take care of calling these hooks in the right way for each fold (with the exception of `aggregator` that is called at the end of the simulation).
 
 ## How to install
 
