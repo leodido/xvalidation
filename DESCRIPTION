@@ -12,6 +12,6 @@ License: GPL-3
 Suggests:
     devtools
 Collate:
-    'package.r'
+    'xvalidation-package.r'
     'cross-validation.r'
     'handlers.r'

@@ -6,7 +6,7 @@
 #' @param names a flag to indicate whether the folds must have names or not
 #' @return A list of folds, each of which containing the indices of its train and test set
 #' @export
-xvalidation <- function(dataset, method = getOption('xvalidation.methods'), k = NULL, names = getOption('xvalidation.foldnames'), parallel = FALSE, pos = 1L) {
+xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = NULL, names = getOption('xvalidation.foldname'), parallel = FALSE, pos = 1L) {
   # preconditions
   assert_that(is.vector(dataset))
   assert_that(is.flag(names))
@@ -55,7 +55,7 @@ xvalidation <- function(dataset, method = getOption('xvalidation.methods'), k = 
 }
 
 #' @rdname xvalidation
-kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xvalidation.foldnames')) {
+kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xvalidation.foldname')) {
   # check preconditions
   assert_that(is_count(n_obs))
   assert_that(is_count(k))
@@ -70,11 +70,11 @@ kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xval
 }
 
 #' @rdname xvalidation
-holdout <- function(n_obs, names = getOption('xvalidation.foldnames')) {
+holdout <- function(n_obs, names = getOption('xvalidation.foldname')) {
   kfold(n_obs, 2L, names)
 }
 
 #' @rdname xvalidation
-loo <- function(n_obs, names = getOption('xvalidation.foldnames')) {
+loo <- function(n_obs, names = getOption('xvalidation.foldname')) {
   kfold(n_obs, n_obs, names)
 }
