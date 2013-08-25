@@ -9,15 +9,16 @@
 \usage{
   xvalidation(dataset,
     method = getOption("xvalidation.method"), k = NULL,
-    names = getOption("xvalidation.foldname"),
+    names = getOption("xvalidation.fold.name"),
     parallel = FALSE, pos = 1L)
 
   kfold(n_obs, k = getOption("xvalidation.k"),
-    names = getOption("xvalidation.foldname"))
+    names = getOption("xvalidation.fold.name"))
 
-  holdout(n_obs, names = getOption("xvalidation.foldname"))
+  holdout(n_obs,
+    names = getOption("xvalidation.fold.name"))
 
-  loo(n_obs, names = getOption("xvalidation.foldname"))
+  loo(n_obs, names = getOption("xvalidation.fold.name"))
 }
 \arguments{
   \item{dataset}{a list of elements on which will be
@@ -54,10 +55,10 @@ It uses the following \code{\link{options}} to configure behaviour}{
   \code{\link{xvalidation}}, given by the first element,
   but do not use other elements that are not in this set
 
-  \item \code{xvalidation.foldname}: control whether the
+  \item \code{xvalidation.fold.name}: control whether the
   folds have to be a named list or not
 
-  \item \code{xvalidation.foldprefix}: specify the prefix
+  \item \code{xvalidation.fold.prefix}: specify the prefix
   to be used for the names of the folding list }
 }
 

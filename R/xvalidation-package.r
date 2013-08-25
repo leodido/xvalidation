@@ -12,9 +12,9 @@
 #'     \code{\link{xvalidation}}, given by the first element, but do not use other elements
 #'     that are not in this set
 #'     
-#'   \item \code{xvalidation.foldname}: control whether the folds have to be a named list or not
+#'   \item \code{xvalidation.fold.name}: control whether the folds have to be a named list or not
 #'
-#'   \item \code{xvalidation.foldprefix}: specify the prefix to be used for the names of the folding list
+#'   \item \code{xvalidation.fold.prefix}: specify the prefix to be used for the names of the folding list
 #' }
 #' @docType package
 #' @name xvalidation
@@ -26,8 +26,8 @@ NULL
   xvalidation_ops <- list(
     xvalidation.k = 10L,
     xvalidation.method = c('kfold', 'holdout', 'loo'),
-    xvalidation.foldname = TRUE,
-    xvalidation.foldprefix = 'fold_'
+    xvalidation.fold.name = TRUE,
+    xvalidation.fold.prefix = 'fold_'
   )
   to_set <- !(names(xvalidation_ops) %in% names(ops))
   if (any(to_set)) options(xvalidation_ops[to_set])

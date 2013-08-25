@@ -6,7 +6,7 @@
 #' @param names a flag to indicate whether the folds must have names or not
 #' @return A list of folds, each of which containing the indices of its train and test set
 #' @export
-xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = NULL, names = getOption('xvalidation.foldname'), parallel = FALSE, pos = 1L) {
+xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = NULL, names = getOption('xvalidation.fold.name'), parallel = FALSE, pos = 1L) {
   # preconditions
   assert_that(is.vector(dataset))
   assert_that(is.flag(names))
@@ -55,7 +55,7 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = N
 }
 
 #' @rdname xvalidation
-kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xvalidation.foldname')) {
+kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xvalidation.fold.name')) {
   # check preconditions
   assert_that(is_count(n_obs))
   assert_that(is_count(k))
@@ -64,17 +64,17 @@ kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xval
   set.seed(k) # NOTE: function became deterministic
   id <- sample(rep(seq.int(k), length.out = n_obs))
   l <- lapply(seq.int(k), function(x) list(train = which(x != id), test = which(x == id)))
-  if (names) names(l) <- sapply(seq.int(k), function(i) paste(getOption('xvalidation.foldprefix'), i, sep = ''))
+  if (names) names(l) <- sapply(seq.int(k), function(i) paste(getOption('xvalidation.fold.prefix'), i, sep = ''))
   # return
   l
 }
 
 #' @rdname xvalidation
-holdout <- function(n_obs, names = getOption('xvalidation.foldname')) {
+holdout <- function(n_obs, names = getOption('xvalidation.fold.name')) {
   kfold(n_obs, 2L, names)
 }
 
 #' @rdname xvalidation
-loo <- function(n_obs, names = getOption('xvalidation.foldname')) {
+loo <- function(n_obs, names = getOption('xvalidation.fold.name')) {
   kfold(n_obs, n_obs, names)
 }
