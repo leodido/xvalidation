@@ -1,5 +1,9 @@
-xvalidation 0.1
-===============
+xvalidation 0.1.2
+=================
+* fixed a bug related the matching of function names
+
+xvalidation 0.1.0
+=================
 
 * handlers/hooks to cross-validate using user-defined functions
 
