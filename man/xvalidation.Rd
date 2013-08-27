@@ -8,7 +8,8 @@
 \title{xvalidation is a set of simple but effective functions to cross-validate your predictive model on your dataset.}
 \usage{
   xvalidation(dataset,
-    method = getOption("xvalidation.method"), k = NULL,
+    method = getOption("xvalidation.method"),
+    k = getOption("xvalidation.k"),
     names = getOption("xvalidation.fold.name"),
     parallel = FALSE, pos = 1L)
 

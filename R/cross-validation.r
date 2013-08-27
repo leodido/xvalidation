@@ -1,3 +1,7 @@
+match_method <- function(method = c('kfold', 'holdout', 'loo')) {
+  match.arg(method)
+}
+
 #' Creates the folds to perform cross-validation.
 #'
 #' @param dataset a list of elements on which will be performed the partitioning
@@ -6,22 +10,20 @@
 #' @param names a flag to indicate whether the folds must have names or not
 #' @return A list of folds, each of which containing the indices of its train and test set
 #' @export
-xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = NULL, names = getOption('xvalidation.fold.name'), parallel = FALSE, pos = 1L) {
+xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = getOption('xvalidation.k'), names = getOption('xvalidation.fold.name'), parallel = FALSE, pos = 1L) {
   # preconditions
-  assert_that(is.vector(dataset))
-  assert_that(is.flag(names))
+  assert_that(is.vector(dataset), is.flag(names), is.numeric(k), is.flag(parallel)) # FIXME: pos type?
   # save the current function
   this <- eval(match.call()[[1L]], parent.frame(n = pos))
+  print(this)
   # compute folds
-  method <- match.arg(method)
-  func <- match.fun(method)
+  method <- match_method(method)
   n_obs <- length(dataset)
   partitions <- NULL
   if (method == 'kfold') {
-    if (is.null(k)) k <- as.integer(eval(formals(func)$k))
-    partitions <- func(n_obs, k, names)
+    partitions <- eval(call(method, n_obs, k, names))
   } else {
-    partitions <- func(n_obs, names)
+    partitions <- eval(call(method, n_obs, names))
   }
   #
   train_func <- trainer(this)
