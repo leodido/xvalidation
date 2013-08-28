@@ -27,24 +27,38 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = g
   }
   #
   train_func <- trainer(this)
-  train <- function(fold) train_func(dataset[fold$train])
+  train <- function(partition, fold_id) {
+    fold = new.env()
+    fold$id = fold_id
+    train_func(dataset[partition$train])
+  }
   test_func <- validator(this)
-  test <- function(model, fold) test_func(model, dataset[fold$test])
+  test <- function(model, partition, fold_id) {
+    fold = new.env()
+    fold$id = fold_id
+    test_func(model, dataset[partition$test])
+  }
   stats_func <- evaluator(this)
-  stats <- function(results, fold) stats_func(results, dataset[fold$train])
+  stats <- function(results, partition, fold_id) {
+    fold = new.env()
+    fold$id = fold_id
+    stats_func(results, dataset[partition$train])
+  }
   aggr_func <- aggregator(this)
   #
   iterator <- match.fun(ifelse(parallel, 'mclapply', 'lapply'))
+  i <- create_counter(1)
   output <- iterator(partitions, function(fold) {
     if (!is.null(train_func)) {
       # phase 1: computation of the model for the training set of the current fold
-      fold[['model']] <- train(fold)
+      fold[['model']] <- train(fold, i$value())
       if (!is.null(test_func)) {
         # phase 2: inference the test set of the current fold on the model
-        fold[['results']] <- test(fold[['model']], fold)
+        fold[['results']] <- test(fold[['model']], fold, i$value())
         # phase 3: compute performance statistics
-        if (!is.null(stats_func)) fold[['stats']] <- stats(fold[['results']], fold)
+        if (!is.null(stats_func)) fold[['stats']] <- stats(fold[['results']], fold, i$value())
       }
+      i$increment(1)
       fold
     } else {
       fold
