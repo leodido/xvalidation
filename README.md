@@ -36,12 +36,24 @@ install_github('xvalidation', username = 'leodido')
 ## A little stupid and pointless demo
 
 ```R
-dataset <- setNames(as.list(sample(letters[1:23], 12, replace = T)), as.character(1:12L))
+# generate a fake dataset
+dataset <- setNames(
+  as.list(sample(letters[1:23], 12, replace = T)),
+  as.character(1:12L)
+)
+# implement hooks
 preprocessor(xvalidation) <- function(fold) {
-  cat(sprintf('saving fold #%d configuration to file for reproducibility ...\n', fold$id))
+  cat(sprintf(
+    'saving fold #%d configuration to file for reproducibility ...\n',
+    fold$id
+  ))
 }
 trainer(xvalidation) <- function(training_set) {
-  cat(paste0('learning algorithm on train set of fold #', get('fold', parent.frame())$id), ' ...\n')
+  cat(paste0(
+    'learning algorithm on train set of fold #',
+    get('fold', parent.frame())$id,
+    ' ...\n'
+  ))
   length(training_set)
 }
 validator(xvalidation) <- function(model, validation_set) {
@@ -57,5 +69,6 @@ aggregator(xvalidation) <- function(stats) {
   mm[is.na(mm)] <- 0
   colSums(mm) / nrow(mm)
 }
+# execute cross-validated experimentation
 xvalidation(dataset, k = 4)
 ```
