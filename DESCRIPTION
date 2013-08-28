@@ -15,4 +15,3 @@ Collate:
     'xvalidation-package.r'
     'cross-validation.r'
     'handlers.r'
-    'counter.r'

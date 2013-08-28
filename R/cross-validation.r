@@ -67,7 +67,6 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = g
   #
   iterator <- match.fun(ifelse(parallel, 'mclapply', 'lapply'))
   output <- iterator(partitions, function(fold) {
-    cat(sprintf('current fold ID is %02d.\n', fold$id))
     if (!is.null(preprocess_func)) {
       preprocess(fold)
     }
