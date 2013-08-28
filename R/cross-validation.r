@@ -28,47 +28,45 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = g
   }
   # retrieve and bundle handlers
   preprocess_func <- preprocessor(this)
-  preprocess <- function(partition, fold_id) {
-    partition$id <- fold_id
+  preprocess <- function(partition) {
     preprocess_func(partition)
   }
   train_func <- trainer(this)
-  train <- function(partition, fold_id) {
+  train <- function(partition) {
     fold <- new.env()
-    fold$id <- fold_id
+    fold$id <- partition$id
     train_func(dataset[partition$train])
   }
   test_func <- validator(this)
-  test <- function(model, partition, fold_id) {
+  test <- function(model, partition) {
     fold <- new.env()
-    fold$id <- fold_id
+    fold$id <- partition$id
     test_func(model, dataset[partition$test])
   }
   stats_func <- evaluator(this)
-  stats <- function(results, partition, fold_id) {
+  stats <- function(results, partition) {
     fold <- new.env()
-    fold$id <- fold_id
+    fold$id <- partition$id
     stats_func(results, dataset[partition$train])
   }
   aggr_func <- aggregator(this)
   #
   iterator <- match.fun(ifelse(parallel, 'mclapply', 'lapply'))
-  i <- create_counter(1)
   output <- iterator(partitions, function(fold) {
+    cat(sprintf('current fold ID is %02d.\n', fold$id))
     if (!is.null(preprocess_func)) {
-      preprocess(fold, i$value())
+      preprocess(fold)
     }
     if (!is.null(train_func)) {
       # phase 1: computation of the model for the training set of the current fold
-      fold[['model']] <- train(fold, i$value())
+      fold[['model']] <- train(fold)
       if (!is.null(test_func)) {
         # phase 2: inference the test set of the current fold on the model
-        fold[['results']] <- test(fold[['model']], fold, i$value())
+        fold[['results']] <- test(fold[['model']], fold)
         # phase 3: compute performance statistics
-        if (!is.null(stats_func)) fold[['stats']] <- stats(fold[['results']], fold, i$value())
+        if (!is.null(stats_func)) fold[['stats']] <- stats(fold[['results']], fold)
       }
     }
-    i$increment(1)
     fold
   })
   # phase 4: aggregation of statistics
@@ -86,7 +84,7 @@ kfold <- function(n_obs, k = getOption('xvalidation.k'), names = getOption('xval
   # compute train and test partitions
   set.seed(k) # NOTE: function became deterministic
   id <- sample(rep(seq.int(k), length.out = n_obs))
-  l <- lapply(seq.int(k), function(x) list(train = which(x != id), test = which(x == id)))
+  l <- lapply(seq.int(k), function(x) list(id = x, train = which(x != id), test = which(x == id)))
   if (names) names(l) <- sapply(seq.int(k), function(i) paste(getOption('xvalidation.fold.prefix'), i, sep = ''))
   # return
   l
