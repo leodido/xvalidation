@@ -8,7 +8,7 @@ You can uses it to simply folding your dataset through `xvalidation(dataset, met
 The folding available methods are:
 
 * `kfold` (note that `k` is `10` by default), to perform a k-fold cross-validation
-* `holdout`, to performa a holdout cross-validation
+* `holdout`, to perform a holdout cross-validation
 * `loo`, to perform a leave-one-out cross-validation
 
 Or you can completely perform a cross-validated simulation. In this regard it provides useful hooks to set your functions:
@@ -19,13 +19,13 @@ Or you can completely perform a cross-validated simulation. In this regard it pr
 4. `evaluator` to compute the performance statistics
 5. `aggregator` to average or generally aggregate the performance statistics of each fold
 
-Each of these handlers require a function with a well-defined signature that must be respected. Moreover, iImplementing hooks *2*, *3*, and *4* you can inherit fold informations from a `fold` environment.
+Each of these handlers require a function with a well-defined signature that must be respected. Moreover, implementing hooks *2*, *3*, and *4* you can inherit fold informations from a `fold` environment.
 
 `xvalidator` will take care of calling these hooks in the right way for each fold (with the exception of `aggregator` that is called at the end of the simulation).
 
 ## How to install
 
-Note that `xvalidation` is not yet available on CRAN, but you can install it and its dependecies with [devtools](https://github.com/hadley/devtools):
+Note that `xvalidation` is not yet available on CRAN, but you can install it and its dependencies with [devtools](https://github.com/hadley/devtools):
 
 ```R
 library(devtools)
