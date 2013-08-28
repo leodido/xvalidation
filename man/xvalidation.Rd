@@ -33,6 +33,10 @@
 
   \item{names}{a flag to indicate whether the folds must
   have names or not}
+
+  \item{parallel}{...}
+
+  \item{pos}{...}
 }
 \value{
   A list of folds, each of which containing the indices of

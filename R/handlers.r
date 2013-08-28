@@ -1,4 +1,15 @@
+preprocessor <- function(x) attr(x, 'preprocessor')
+
 #' @export
+'preprocessor<-' <- function(x, value) {
+  assert_that(
+    is.function(x),
+    has_args(value, c('partition'), exact = TRUE)
+  )
+  attr(x, 'preprocessor') <- value
+  x
+}
+
 trainer <- function(x) attr(x, 'trainer')
 
 #' @export
@@ -11,7 +22,6 @@ trainer <- function(x) attr(x, 'trainer')
   x
 }
 
-#' @export
 validator <- function(x) attr(x, 'validator')
 
 #' @export
@@ -24,7 +34,6 @@ validator <- function(x) attr(x, 'validator')
   x
 }
 
-#' @export
 evaluator <- function(x) attr(x, 'evaluator')
 
 #' @export
@@ -37,7 +46,6 @@ evaluator <- function(x) attr(x, 'evaluator')
   x
 }
 
-#' @export
 aggregator <- function(x) attr(x, 'aggregator')
 
 #' @export
