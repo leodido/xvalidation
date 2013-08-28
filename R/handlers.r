@@ -4,7 +4,7 @@ preprocessor <- function(x) attr(x, 'preprocessor')
 'preprocessor<-' <- function(x, value) {
   assert_that(
     is.function(x),
-    has_args(value, c('partition'), exact = TRUE)
+    has_args(value, c('fold'), exact = TRUE)
   )
   attr(x, 'preprocessor') <- value
   x
