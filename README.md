@@ -19,9 +19,7 @@ Or you can completely perform a cross-validated simulation. In this regard it pr
 4. `evaluator` to compute the performance statistics
 5. `aggregator` to average or generally aggregate the performance statistics of each fold
 
-Each of these handlers require a function with a well-defined signature that must be respected (see [example](#a-little-stupid-and-pointless-demo)).
-
-Moreover implementing hooks **2**, **3**, and **4** you can inherit an environment (e.g, `get('fold', parent.frame())`).
+Each of these handlers require a function with a well-defined signature that must be respected. Moreover, iImplementing hooks *2*, *3*, and *4* you can inherit fold informations from a `fold` environment.
 
 `xvalidator` will take care of calling these hooks in the right way for each fold (with the exception of `aggregator` that is called at the end of the simulation).
 
@@ -39,7 +37,11 @@ install_github('xvalidation', username = 'leodido')
 
 ```R
 dataset <- setNames(as.list(sample(letters[1:23], 12, replace = T)), as.character(1:12L))
+preprocessor(xvalidation) <- function(fold) {
+  cat(sprintf('saving fold #%d configuration to file for reproducibility ...\n', fold$id))
+}
 trainer(xvalidation) <- function(training_set) {
+  cat(paste0('learning algorithm on train set of fold #', get('fold', parent.frame())$id), ' ...\n')
   length(training_set)
 }
 validator(xvalidation) <- function(model, validation_set) {
