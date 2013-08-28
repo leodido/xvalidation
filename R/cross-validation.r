@@ -50,6 +50,20 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = g
     stats_func(results, dataset[partition$train])
   }
   aggr_func <- aggregator(this)
+  # create temp file to keep track of iterations completed in a parallelized environment
+  if (parallel) {
+    tmp_bin_file <- fifo(tempfile(), open = 'w+b', blocking = TRUE)
+    # child process
+    if (inherits(fork(), 'masterProcess')) {
+      progress <- 0.0
+      while (progress < 1 && !isIncomplete(tmp_bin_file)) {
+          msg <- readBin(tmp_bin_file, 'double')
+          progress <- progress + as.numeric(msg)
+          cat(sprintf('*** progress: %.2f%% ***\n', progress * 100))
+      }
+      exit()
+    }
+  }
   #
   iterator <- match.fun(ifelse(parallel, 'mclapply', 'lapply'))
   output <- iterator(partitions, function(fold) {
@@ -67,10 +81,19 @@ xvalidation <- function(dataset, method = getOption('xvalidation.method'), k = g
         if (!is.null(stats_func)) fold[['stats']] <- stats(fold[['results']], fold)
       }
     }
+    # write temp file to communicate that current iteration has ended when parallelized
+    if (parallel) {
+      writeBin(1 / length(partitions), tmp_bin_file)
+    }
+    # return
     fold
   })
   # phase 4: aggregation of statistics
   if (!is.null(aggr_func)) output[['aggregated']] <- aggr_func(lapply(output, '[[', 'stats'))
+  # close temp binary file (used only when parallelized)
+  if (parallel) {
+    close(tmp_bin_file)
+  }
   # invisible return
   invisible(output)
 }
