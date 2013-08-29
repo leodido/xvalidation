@@ -27,12 +27,18 @@ NULL
     xvalidation.k = 10L,
     xvalidation.method = 'kfold', # one of c('kfold', 'holdout', 'loo')
     xvalidation.fold.name = TRUE,
-    xvalidation.fold.prefix = 'fold_'
+    xvalidation.fold.prefix = 'fold_',
+    xvalidation.parallel = TRUE,
+    xvalidation.parallel.preschedule = FALSE,
+    xvalidation.parallel.silent = TRUE
   )
   to_set <- !(names(xvalidation_ops) %in% names(ops))
   if (any(to_set)) options(xvalidation_ops[to_set])
   invisible()
 }
+
+# use parallel::mclapply or multicore::mclapply?
+# where pvec can be used?
 
 # TODO: in '<-' function check that x parameter is the xvalidation function
 # HOWTO: i suppose matching the standardized signature of x with the standardized signature of xvalidation
