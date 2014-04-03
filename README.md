@@ -1,5 +1,5 @@
-xvalidation
-===========
+xvalidation [![Analytics](https://ga-beacon.appspot.com/UA-49657176-1/xvalidation)](https://github.com/igrigorik/ga-beacon)
+============
 
 Provides a set of **simple** and **useful** `R` functions to perform the **cross-validation** of your model on your dataset.
 
